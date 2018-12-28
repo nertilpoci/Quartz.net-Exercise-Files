@@ -28,11 +28,14 @@ namespace QuartzExamples.Controllers
         public async Task<IActionResult> StartSimpleJob()
         {
             IJobDetail job = JobBuilder.Create<SimpleJob>()
-                                       .WithIdentity("simplejob", "qurtzexamples")
+                                       .UsingJobData("username", "devhow")
+                                       .UsingJobData("password", "Security!!")
+                                       .WithIdentity("simplejob", "quartzexamples")
                                        .Build();
+            job.JobDataMap.Put("user", new JobUserParameter { Username = "devhow", Password = "Security!!" });
 
             ITrigger trigger = TriggerBuilder.Create()
-                                             .WithIdentity("testtrigger", " qurtzexamples ")
+                                             .WithIdentity("testtrigger", "quartzexamples")
                                              .StartNow()
                                              .WithSimpleSchedule(x => x.WithIntervalInSeconds(5).WithRepeatCount(5))
                                              .Build();
