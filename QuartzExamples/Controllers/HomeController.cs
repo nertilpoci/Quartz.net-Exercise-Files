@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Quartz;
+using QuartzExamples.Jobs;
 using QuartzExamples.Models;
+using System.Diagnostics;
 
 namespace QuartzExamples.Controllers
 {
@@ -20,6 +18,14 @@ namespace QuartzExamples.Controllers
             ViewData["Message"] = "Your application description page.";
 
             return View();
+        }
+        public IActionResult StartSimpleJob()
+        {
+            IJobDetail job = JobBuilder.Create<SimpleJob>()
+                .WithIdentity("simplejob", "qurtzexamples")
+                .Build();
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult Contact()
