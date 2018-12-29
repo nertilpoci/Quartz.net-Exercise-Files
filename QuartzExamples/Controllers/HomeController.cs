@@ -35,6 +35,7 @@ namespace QuartzExamples.Controllers
             job.JobDataMap.Put("user", new JobUserParameter { Username = "devhow", Password = "Security!!" });
 
             ITrigger trigger = TriggerBuilder.Create()
+                                             .UsingJobData("triggerparam", "Simple trigger 1 Parameter")
                                              .WithIdentity("testtrigger", "quartzexamples")
                                              .StartNow()
                                              .WithSimpleSchedule(x => x.WithIntervalInSeconds(5).WithRepeatCount(5))
