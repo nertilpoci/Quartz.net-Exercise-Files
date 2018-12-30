@@ -48,15 +48,7 @@ namespace QuartzExamples.Controllers
                                              .Build();
 
             await _scheduler.ScheduleJob(trigger);
-            ITrigger trigger2 = TriggerBuilder.Create()
-                                             .ForJob(job)
-                                             .UsingJobData("triggerparam", "Simple trigger 2 Parameter")
-                                             .WithIdentity("testtrigger2", "quartzexamples")
-                                             .StartNow()
-                                             .WithSimpleSchedule(x => x.WithIntervalInSeconds(5).WithRepeatCount(5))
-                                             .Build();
-
-            await _scheduler.ScheduleJob(trigger2);
+          
             return RedirectToAction("Index");
         }
 
