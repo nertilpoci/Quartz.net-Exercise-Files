@@ -2,6 +2,7 @@
 using Quartz;
 using QuartzExamples.Jobs;
 using QuartzExamples.Models;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -38,7 +39,7 @@ namespace QuartzExamples.Controllers
                                              .UsingJobData("triggerparam", "Simple trigger 1 Parameter")
                                              .WithIdentity("testtrigger", "quartzexamples")
                                              .StartNow()
-                                             .WithSimpleSchedule(x => x.WithIntervalInSeconds(5).WithRepeatCount(5))
+                                             .WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromSeconds(5)).RepeatForever())
                                              .Build();
 
            await _scheduler.ScheduleJob(job, trigger);
