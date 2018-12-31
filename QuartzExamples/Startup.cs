@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Impl;
+using Quartz.Impl.Matchers;
 using QuartzExamples.Jobs;
 using QuartzExamples.Services;
 
@@ -83,6 +84,9 @@ namespace QuartzExamples
             StdSchedulerFactory factory = new StdSchedulerFactory(props);
             var scheduler = factory.GetScheduler().Result;
             scheduler.Start().Wait();
+            scheduler.ListenerManager.AddTriggerListener(new TriggerListener());
+            scheduler.ListenerManager.AddJobListener(new JobListener());
+            scheduler.ListenerManager.AddSchedulerListener(new SchedulerListener());
             return scheduler;
 
         }
