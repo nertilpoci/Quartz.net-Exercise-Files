@@ -44,9 +44,7 @@ namespace QuartzExamples.Controllers
                                              .UsingJobData("triggerparam", "Simple trigger 1 Parameter")
                                              .WithIdentity("testtrigger", "quartzexamples")
                                              .StartNow()
-                                             .WithCalendarIntervalSchedule(x=>x.WithIntervalInDays(1)
-                                                                               .PreserveHourOfDayAcrossDaylightSavings(true)
-                                                                               .SkipDayIfHourDoesNotExist(true))
+                                             .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(10,0))
                                              .Build();
 
             await _scheduler.ScheduleJob(trigger);
