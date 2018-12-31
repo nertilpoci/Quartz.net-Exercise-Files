@@ -1,5 +1,6 @@
 ﻿using Quartz;
 using QuartzExamples.Models;
+using QuartzExamples.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,15 +11,14 @@ namespace QuartzExamples.Jobs
 {
     public class SimpleJob : IJob
     {
+        IEmailService _emailService;
+        public SimpleJob(IEmailService emailService)
+        {
+            _emailService = emailService;
+        }
         public async Task Execute(IJobExecutionContext context)
         {
-            JobDataMap dataMap = context.MergedJobDataMap;
-            string username = dataMap.GetString("username");
-            string password = dataMap.GetString("password");
-            string triggerparam = dataMap.GetString("triggerparam");
-            JobUserParameter user = (JobUserParameter)dataMap.Get("user");
-            var message = $"Simple executed with username {user.Username} and password {user.Password} with trigger param '{triggerparam}'";
-            Debug.WriteLine(message);
+            _emailService.Send("info@devhow.net", "Quartz.net DI", "Dependency injection in quartz");
         }
     }
 }

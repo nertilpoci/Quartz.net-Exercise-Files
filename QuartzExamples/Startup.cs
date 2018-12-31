@@ -12,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Impl;
+using QuartzExamples.Jobs;
+using QuartzExamples.Services;
 
 namespace QuartzExamples
 {
@@ -35,7 +37,8 @@ namespace QuartzExamples
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
+            services.AddTransient<SimpleJob>();
+            services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton(provider => _quartzScheduler);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -57,7 +60,7 @@ namespace QuartzExamples
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
+            _quartzScheduler.JobFactory = new AspnetCoreJobFactory(app.ApplicationServices);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
