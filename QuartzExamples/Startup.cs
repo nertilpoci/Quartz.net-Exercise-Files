@@ -84,7 +84,6 @@ namespace QuartzExamples
                { "quartz.jobStore.type", "Quartz.Impl.AdoJobStore.JobStoreTX, Quartz" },
                  { "quartz.jobStore.dataSource", "default" },
                  { "quartz.dataSource.default.provider", "SqlServer" },
-                  { "quartz.jobStore.driverDelegateType", "Quartz.Impl.AdoJobStore.StdAdoDelegate, Quartz" },
                   { "quartz.dataSource.default.connectionString", "Server=.;Integrated Security=true;Initial Catalog = Quartz" },
               };
             StdSchedulerFactory factory = new StdSchedulerFactory(props);
