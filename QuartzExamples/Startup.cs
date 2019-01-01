@@ -85,6 +85,8 @@ namespace QuartzExamples
                  { "quartz.jobStore.dataSource", "default" },
                  { "quartz.dataSource.default.provider", "SqlServer" },
                   { "quartz.dataSource.default.connectionString", "Server=.;Integrated Security=true;Initial Catalog = Quartz" },
+                  {"quartz.jobStore.clustered","true" },
+                  { "quartz.jobStore.driverDelegateType", "Quartz.Impl.AdoJobStore.SqlServerDelegate, Quartz" }
               };
             StdSchedulerFactory factory = new StdSchedulerFactory(props);
             var scheduler = factory.GetScheduler().Result;
