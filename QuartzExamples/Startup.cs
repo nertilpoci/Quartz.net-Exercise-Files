@@ -62,6 +62,7 @@ namespace QuartzExamples
                 app.UseHsts();
             }
             _quartzScheduler.JobFactory = new AspnetCoreJobFactory(app.ApplicationServices);
+            _quartzScheduler.Start().Wait();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -79,11 +80,16 @@ namespace QuartzExamples
 
             NameValueCollection props = new NameValueCollection
              {
-              { "quartz.serializer.type", "binary" },
+              { "quartz.serializer.type", "json" },
+               { "quartz.jobStore.type", "Quartz.Impl.AdoJobStore.JobStoreTX, Quartz" },
+                 { "quartz.jobStore.dataSource", "default" },
+                 { "quartz.dataSource.default.provider", "SqlServer" },
+                  { "quartz.jobStore.driverDelegateType", "Quartz.Impl.AdoJobStore.StdAdoDelegate, Quartz" },
+                  { "quartz.dataSource.default.connectionString", "Server=.;Integrated Security=true;Initial Catalog = Quartz" },
               };
             StdSchedulerFactory factory = new StdSchedulerFactory(props);
             var scheduler = factory.GetScheduler().Result;
-            scheduler.Start().Wait();
+
             scheduler.ListenerManager.AddTriggerListener(new TriggerListener());
             scheduler.ListenerManager.AddJobListener(new JobListener());
             scheduler.ListenerManager.AddSchedulerListener(new SchedulerListener());

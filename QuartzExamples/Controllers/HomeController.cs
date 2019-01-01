@@ -33,6 +33,7 @@ namespace QuartzExamples.Controllers
                                        .UsingJobData("password", "Security!!")
                                        .WithIdentity("simplejob", "quartzexamples")
                                        .StoreDurably()
+                                       .RequestRecovery()
                                        .Build();
             job.JobDataMap.Put("user", new JobUserParameter { Username = "devhow", Password = "Security!!" });
 
@@ -44,7 +45,7 @@ namespace QuartzExamples.Controllers
                                              .UsingJobData("triggerparam", "Simple trigger 1 Parameter")
                                              .WithIdentity("testtrigger", "quartzexamples")
                                              .StartNow()
-                                             .WithSimpleSchedule(z=>z.WithIntervalInSeconds(5).RepeatForever())
+                                             .WithSimpleSchedule(z=> z.WithIntervalInSeconds(5).RepeatForever().WithMisfireHandlingInstructionIgnoreMisfires())
                                              .Build();
 
             await _scheduler.ScheduleJob(trigger);
