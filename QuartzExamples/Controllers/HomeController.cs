@@ -47,9 +47,25 @@ namespace QuartzExamples.Controllers
                                              .StartNow()
                                              .WithSimpleSchedule(z=> z.WithIntervalInSeconds(5).RepeatForever().WithMisfireHandlingInstructionIgnoreMisfires())
                                              .Build();
+            ITrigger trigger2 = TriggerBuilder.Create()
+                                            .ForJob(job)
+                                            .UsingJobData("triggerparam", "Simple trigger 2 Parameter")
+                                            .WithIdentity("testtrigger2", "quartzexamples")
+                                            .StartNow()
+                                            .WithSimpleSchedule(z => z.WithIntervalInSeconds(5).RepeatForever().WithMisfireHandlingInstructionIgnoreMisfires())
+                                            .Build();
+            ITrigger trigger3 = TriggerBuilder.Create()
+                                            .ForJob(job)
+                                            .UsingJobData("triggerparam", "Simple trigger 3 Parameter")
+                                            .WithIdentity("testtrigger3", "quartzexamples")
+                                            .StartNow()
+                                            .WithSimpleSchedule(z => z.WithIntervalInSeconds(5).RepeatForever().WithMisfireHandlingInstructionIgnoreMisfires())
+                                            .Build();
 
             await _scheduler.ScheduleJob(trigger);
-          
+            await _scheduler.ScheduleJob(trigger2);
+            await _scheduler.ScheduleJob(trigger3);
+
             return RedirectToAction("Index");
         }
 
