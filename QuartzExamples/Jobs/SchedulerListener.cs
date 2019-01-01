@@ -55,9 +55,9 @@ namespace QuartzExamples.Jobs
             Debug.WriteLine($"Job unscheduled  :  {triggerKey.Name}");
         }
 
-        public Task SchedulerError(string msg, SchedulerException cause, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task SchedulerError(string msg, SchedulerException cause, CancellationToken cancellationToken = default(CancellationToken))
         {
-            throw new NotImplementedException();
+            Debug.WriteLine($"SchedulerError with msg {msg}");
         }
 
         public async Task SchedulerInStandbyMode(CancellationToken cancellationToken = default(CancellationToken))
